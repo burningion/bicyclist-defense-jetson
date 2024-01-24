@@ -13,5 +13,5 @@ def healthchecker():
 def record():
     print("recoding...")
     print(f"current directory: {os.getcwd()}")
-    subprocess.call(f"python3 record_30s.py".split(" "))
+    subprocess.call(f"python3 rrecord_30s.py --num-frames=300".split(" "))
     return True
