@@ -22,3 +22,24 @@ $ sudo nmcli d wifi connect AS:0D:20:20:92 password actualpassword
 ```
 
 From there, each time I bring up my Jetson, it will autoconnect to the Wifi.
+
+## Realsense Installation on Jetson Orin Nano
+
+The default installation doesn't seem to work. Here's what I did in order to build:
+
+```bash
+$ cd librealsense
+$ mkdir build
+$ cd build
+$ cmake ../ -DBUILD_PYTHON_BINDINGS:bool=true -DPYTHON_EXECUTABLE=/home/stankley/.pyenv/shims/python3 -DBUILD_WITH_CUDA=true -DCMAKE_BUILD_TYPE=release -DBUILD_EXAMPLES=true -DCMAKE_CUDA_ARCHITECTURES=75 -DFORCE_RSUSB_BACKEND=TRUE
+$ sudo make install
+$ cp /usr/local/OFF/*.so ~/.local/lib/python3.10/site-packages/
+```
+
+## AWR1443 mmWave 
+
+You _must_ use Jetpack 6. Otherwise, there's a bug in the UART controller for the Jetson Orin Nano. 
+
+Once you've done that, install the requirements for the [pymmwave](https://github.com/m6c7l/pymmw) project.
+
+From there, you can edit the `source/mss/14_mmw-xWR14xx.cfg` file to just run the resources you need, and extract running features from the `source/app/` directory.
