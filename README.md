@@ -23,10 +23,11 @@ import numpy as np
 rr.init("realsense")
 # connect to my macbook on tailscale
 rr.connect("100.79.94.136:9876")
+
+rr.log("any value name", rr.Image(...)) # log your datastructure here
 ```
 
 The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
-
 
 ## Networking Setup
 
