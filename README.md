@@ -31,7 +31,7 @@ The big point is the IP address of my laptop or desktop in the `rr.connect` line
 
 ## Hardware Setup
 
-![hardware setup](./images/hardware.png)
+![hardware setup](./assets/hardware.png)
 
 I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my power supply when doing dev on the bench.
 
