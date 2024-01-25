@@ -2,7 +2,7 @@
 
 Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
-![Bicyclist Safety Architecture Diagram](/images/bicyclist-safety/.png)
+![Bicyclist Safety Architecture Diagram](./assets/bicyclist-safety.png)
 
 ## Networking Setup
 
