@@ -29,6 +29,12 @@ rr.log("any value name", rr.Image(...)) # log your datastructure here
 
 The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
 
+## Hardware Setup
+
+![hardware setup](./images/hardware.png)
+
+I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my power supply when doing dev on the bench.
+
 ## Networking Setup
 
 I've installed Tailscale on my iPhone and my Jetson Orin Nano. 
