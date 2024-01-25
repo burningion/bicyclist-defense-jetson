@@ -4,6 +4,30 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 ![Bicyclist Safety Architecture Diagram](./assets/bicyclist-safety.png)
 
+## Replaying in Rerun
+
+![rerun gui](./assets/rerun.png)
+
+You have two ways of using Rerun.
+
+I currently use and run the webapp here to control recording from my iPhone. This lets me hit record when I'm out, and allows the Jetson to record to the SSD I've added to it.
+
+But when I'm developing or adding new sensors, I use an iPython session, and connect to my desktop version of Rerun.
+
+To do this I:
+
+```python
+import rerun as rr
+import numpy as np
+
+rr.init("realsense")
+# connect to my macbook on tailscale
+rr.connect("100.79.94.136:9876")
+```
+
+The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
+
+
 ## Networking Setup
 
 I've installed Tailscale on my iPhone and my Jetson Orin Nano. 
@@ -54,25 +78,3 @@ Once you've done that, install the requirements for the [pymmwave](https://githu
 
 From there, you can edit the `source/mss/14_mmw-xWR14xx.cfg` file to just run the resources you need, and extract running features from the `source/app/` directory.
 
-## Replaying in Rerun
-
-![rerun gui](./assets/rerun.png)
-
-You have two ways of using Rerun.
-
-I currently use and run the webapp here to control recording from my iPhone. This lets me hit record when I'm out, and allows the Jetson to record to the SSD I've added to it.
-
-But when I'm developing or adding new sensors, I use an iPython session, and connect to my desktop version of Rerun.
-
-To do this I:
-
-```python
-import rerun as rr
-import numpy as np
-
-rr.init("realsense")
-# connect to my macbook on tailscale
-rr.connect("100.79.94.136:9876")
-```
-
-The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
