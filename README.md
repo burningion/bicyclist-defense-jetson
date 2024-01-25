@@ -33,7 +33,7 @@ The big point is the IP address of my laptop or desktop in the `rr.connect` line
 
 ![hardware setup](./assets/hardware.png)
 
-I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my power supply when doing dev on the bench.
+I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my [power supply](https://amzn.to/3S5dIl6) when doing development on my workbench.
 
 ## Networking Setup
 
@@ -44,8 +44,9 @@ Once I've done that, I can set up my Jetson Orin Nano to run a webserver for con
 For some reason, I wasn't able to discover the Wifi hotspot from my iPhone until _after_ my laptop connected to it. 
 
 So, in order to have this work:
-
+```
 Enable Wifi hotspot on iPhone -> Connect with laptop -> Scan for Wifi -> Find the right mac address -> connect w/ password
+```
 
 These commands will scan for the wifi:
 
