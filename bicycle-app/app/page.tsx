@@ -19,7 +19,7 @@ export default function Home() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  
+
   function record() {
     setRecording(true);
     fetch('/api/py/record', {
@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button className="px-12 py-7 text-9xl" onClick={record} disabled={recording}>Record 30 seconds</Button>
+      <Button className="px-12 py-7 text-9xl" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds'}</Button>
     </main>
   );
 }
