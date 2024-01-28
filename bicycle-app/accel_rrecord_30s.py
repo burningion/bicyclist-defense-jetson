@@ -3,11 +3,19 @@ _#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
-
+from ublox_gps import UbloxGps
+import serial
 import numpy as np
 import pyrealsense2 as rs
 import rerun as rr  # pip install rerun-sdk
 
+
+# sorry, replace the id with your own:
+port = serial.Serial('/dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_GNSS_receiver-if00', baudrate=38400, timeout=1)
+gps = UbloxGps(port)
+
+# coords = gps.geo_coords()
+# coords.lat, coords.lon
 
 def run_realsense(num_frames: int | None) -> None:
     # Visualize the data as RDF
@@ -32,6 +40,9 @@ def run_realsense(num_frames: int | None) -> None:
     gyro_intr = accel_profile.as_motion_stream_profile().get_motion_intrinsics()
     # Gyro(0) @ 200fps MOTION_XYZ32F on the D455 by default
     # accessed via: gyro_intr.data
+    rr.log(
+        "realsense", rr.Transform3D(translation=accel_intr.data, rotation=gyro_intr.data) # maybe?
+    )
     rr.log(
         "realsense/depth/image",
         rr.Pinhole(
