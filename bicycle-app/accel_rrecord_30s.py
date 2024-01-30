@@ -8,11 +8,14 @@ import serial
 import numpy as np
 import pyrealsense2 as rs
 import rerun as rr  # pip install rerun-sdk
-
+import imufusion
 
 # sorry, replace the id with your own:
 port = serial.Serial('/dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_GNSS_receiver-if00', baudrate=38400, timeout=1)
 gps = UbloxGps(port)
+
+# need to keep track of our orientation
+ahrs = imufusion.Ahrs()
 
 # coords = gps.geo_coords()
 # coords.lat, coords.lon
@@ -31,18 +34,16 @@ def run_realsense(num_frames: int | None) -> None:
     # Get and log depth intrinsics
     depth_profile = profile.get_stream(rs.stream.depth)
     depth_intr = depth_profile.as_video_stream_profile().get_intrinsics()
-
-    accel_profile = profile.get_stream(rs.stream.accel)
-    accel_intr = accel_profile.as_motion_stream_profile().get_motion_intrinsics()
+    # This approach is wrong, we need frames to calculate orientation
+    #accel_profile = profile.get_stream(rs.stream.accel)
+    # accel_intr = accel_profile.as_motion_stream_profile().get_motion_intrinsics()
     #  Accel(0) @ 63fps MOTION_XYZ32F on the D455 by default
     #  accessed via: accel_intr.data 
-    gyro_profile = profile.get_stream(rs.stream.gyro)
-    gyro_intr = accel_profile.as_motion_stream_profile().get_motion_intrinsics()
+    #gyro_profile = profile.get_stream(rs.stream.gyro)
+    #gyro_intr = accel_profile.as_motion_stream_profile().get_motion_intrinsics()
     # Gyro(0) @ 200fps MOTION_XYZ32F on the D455 by default
     # accessed via: gyro_intr.data
-    rr.log(
-        "realsense", rr.Transform3D(translation=accel_intr.data, rotation=gyro_intr.data) # maybe?
-    )
+
     rr.log(
         "realsense/depth/image",
         rr.Pinhole(
@@ -92,10 +93,20 @@ def run_realsense(num_frames: int | None) -> None:
 
             frames = pipe.wait_for_frames()
             for f in frames:
+                # log accel first @ 63fps
+                accel = frames[2].as_motion_frame().get_motion_data()
+                gyro = frames[3].as_motion_frame().get_motion_data()
+                gyro_np = np.array(gyro.x, gyro.y, gyro.z)
+                accel_np = np.array(accel.x, accel.y, accel.z)
+                ahrs.update_no_magnetometer(gyro_np, accel_np, 1 / 63) # :/
+                quaternion_xyzw = np.roll(np.array(ahrs.quaternion.wxyz), -1)
+
+                rr.log("realsense", rr.Transform3D(rotation=rr.Quaternion(xyzw=quaternion_xyzw)))
                 # Log the depth frame
                 depth_frame = frames.get_depth_frame()
                 depth_units = depth_frame.get_units()
                 depth_image = np.asanyarray(depth_frame.get_data())
+
                 rr.log("realsense/depth/image", rr.DepthImage(depth_image, meter=1.0 / depth_units))
 
                 # Log the color frame
