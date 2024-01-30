@@ -6,7 +6,7 @@ import os
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
 def get_realsense_data():
-    subprocess.call(f"python3 record_30s.py --num-frames=300".split(" "))
+    subprocess.call(f"python3 accel_rrecord_30s.py --num-frames=300".split(" "))
     os.remove("recording.lock")
     print("recording finished")
     return 
