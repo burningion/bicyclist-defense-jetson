@@ -78,6 +78,12 @@ $ cp /usr/local/OFF/*.so ~/.local/lib/python3.10/site-packages/
 
 You'll need to replace `python3.10` with your Python version as appropriate. A `which python3` should start steering you in the right direction.
 
+## Realsense IMU to Quaternion
+
+I use the [imufusion library](https://github.com/xioTechnologies/Fusion) to do sensor fusion across the accelerometer and gyroscope on the Realsense.
+
+I've also added a [GPS device](https://www.sparkfun.com/products/17285) to (eventually) do correction via heading, which imufusion supports.
+
 ## AWR1443 mmWave 
 
 You _must_ use Jetpack 6. Otherwise, there's a bug in the UART controller for the Jetson Orin Nano. 
