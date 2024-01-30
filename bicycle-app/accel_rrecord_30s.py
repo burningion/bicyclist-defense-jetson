@@ -96,8 +96,8 @@ def run_realsense(num_frames: int | None) -> None:
                 # log accel first @ 63fps
                 accel = frames[2].as_motion_frame().get_motion_data()
                 gyro = frames[3].as_motion_frame().get_motion_data()
-                gyro_np = np.array(gyro.x, gyro.y, gyro.z)
-                accel_np = np.array(accel.x, accel.y, accel.z)
+                gyro_np = np.array([gyro.x, gyro.y, gyro.z])
+                accel_np = np.array([accel.x, accel.y, accel.z])
                 ahrs.update_no_magnetometer(gyro_np, accel_np, 1 / 63) # :/
                 quaternion_xyzw = np.roll(np.array(ahrs.quaternion.wxyz), -1)
 
