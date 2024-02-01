@@ -78,7 +78,7 @@ $ cp /usr/local/OFF/*.so ~/.local/lib/python3.10/site-packages/
 
 You'll need to replace `python3.10` with your Python version as appropriate. A `which python3` should start steering you in the right direction.
 
-## Realsense IMU to Quaternion
+## Realsense IMU to Orientation Quaternion
 
 I use the [imufusion library](https://github.com/xioTechnologies/Fusion) to do sensor fusion across the accelerometer and gyroscope on the Realsense.
 
