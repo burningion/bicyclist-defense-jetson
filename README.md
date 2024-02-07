@@ -8,7 +8,7 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 ![rerun gui](./assets/rerun.png)
 
-> On the Jetson Orin Nano you'll need to install rerun-sdk from source.
+> #NOTE: On the Jetson Orin Nano you'll need to install rerun-sdk from source.
 
 You have two ways of using Rerun.
 
