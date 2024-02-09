@@ -94,3 +94,46 @@ Once you've done that, install the requirements for the [pymmwave](https://githu
 
 From there, you can edit the `source/mss/14_mmw-xWR14xx.cfg` file to just run the resources you need, and extract running features from the `source/app/` directory.
 
+## Discovering Video Devices for Inference, Running in Containers
+
+Because computer vision research tends to move quickly, it can be tricky to install the correct dependencies to run multiple projects in the same repository. 
+
+To cope with this, and to make your work reproducible, you can use containers. But using containers in embedded systems is a bit trickier than normal container development, as you have to deal with displays, GPUs, volumes, and USB devices all in one go.
+
+It also makes debugging more difficult. For example, if you want to expose a webcam to your container, you have to know which one you want, _before_ you run the container.
+
+So it's not just working from within the container itself. It involves bouncing back and forth between environments, and keeping track of them.
+
+For example, here's how we check and see which devices we have: (make sure you've installed `v4l-utils`)
+
+```
+$ v4l2-ctl --list-devices
+NVIDIA Tegra Video Input Device (platform:tegra-camrtc-ca):
+	/dev/media0
+
+Intel(R) RealSense(TM) Depth Ca (usb-3610000.usb-1.1):
+	/dev/video0
+	/dev/video1
+	/dev/video2
+	/dev/video3
+	/dev/video4
+	/dev/video5
+	/dev/media1
+	/dev/media2
+
+HD Pro Webcam C920 (usb-3610000.usb-2.2):
+	/dev/video6
+	/dev/video7
+	/dev/media3
+```
+
+With this, we can then add a parameter to mount these devices in the container:
+
+```
+$ docker run --device /dev/bus/usb --device /dev/video0 --device /dev/video1 --device /dev/video2 --device /dev/video3 --device /dev/video4 --device /dev/video5 --device /dev/video6 --device /dev/video7 <containername> /bin/bash
+```
+
+Now, the unfortunate thing here is that we need an efficient way to coordinate communication across these sensors and containers.
+
+Robotics platforms like ROS use a message system, using Pub/Sub to submit messages across the system to services that consume them.
+
