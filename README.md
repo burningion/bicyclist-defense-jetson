@@ -136,7 +136,8 @@ $ docker run --device /dev/bus/usb --device /dev/video0 --device /dev/video1 --d
 And then run the `nanoowl` process:
 
 ```
-$ python3 tree_demo.py --host 0.0.0.0 /opt/nanoowl/data/owl_image_encoder_patch32.engine
+$ cd /opt/nanoowl/examples/tree_demo
+$ python3 tree_demo.py --host 0.0.0.0 --camera 4 /opt/nanoowl/data/owl_image_encoder_patch32.engine
 ```
 
 Now, the unfortunate thing here is that we need an efficient way to coordinate communication across these sensors and containers.
