@@ -14,9 +14,9 @@ export default function Home() {
 
   var ws = undefined
 
-  console.log(location.host);
+  console.log(window.location.host);
 
-  ws = new WebSocket("ws://" + location.host + "/ws");
+  ws = new WebSocket("ws://" + window.location.host + "/ws");
 
   ws.onopen = function () {
 
