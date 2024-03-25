@@ -4,6 +4,21 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 ![Bicyclist Safety Architecture Diagram](./assets/bicyclist-safety.png)
 
+## Recording a Bicycle Trip
+
+![live webcam feed](./assets/live-feed.png)
+
+The main application is a NextJS and FastAPI server. In order to bring it up you'll need to:
+
+```
+$ cd bicyclist-defense-jetson/bicycle-app
+$ npm run dev
+```
+
+This will spin up a FastAPI server, along with the NextJS server. If you're using Tailscale, you'll be able to see your app on your Tailnet.
+
+From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later.
+
 ## Replaying in Rerun
 
 ![rerun gui](./assets/rerun.png)
