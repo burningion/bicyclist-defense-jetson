@@ -6,6 +6,4 @@ RUN pip install pillow --upgrade
 RUN apt-get update && apt-get install -y sudo apt-utils
 # install rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |  RUSTUP_PERMIT_COPY_RENAME=1 sh -s -- -y
-COPY *.whl /opt/
-RUN cd /opt/nanoowl/nanoowl && git pull
-RUN pip install /opt/rerun_sdk-0.13.0a2-cp38-abi3-linux_aarch64.whl
+RUN pip install --pre -f https://build.rerun.io/commit/71ecddb/wheels --upgrade rerun-sdk
