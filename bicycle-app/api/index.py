@@ -71,7 +71,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         print("disconnecting websocket")
         manager.disconnect(websocket)
-        camera.release()
+    
 @app.post("/api/py/record")
 def record(background_tasks: BackgroundTasks):
     if os.path.exists('recording.lock'):

@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-xl">Bicycle Recording App</h1>
+      <h1 className="text-2xl">Bicycle Recording App</h1>
       <div className="w-[14em]">
       <img id="camera_image" src="" alt="Camera Image"/>
       </div>
