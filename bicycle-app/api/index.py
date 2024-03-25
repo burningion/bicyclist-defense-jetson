@@ -1,9 +1,33 @@
-from fastapi import BackgroundTasks, FastAPI
+from fastapi import BackgroundTasks, FastAPI, WebSocket, WebSocketDisconnect
+import cv2
+import asyncio
 import subprocess
 
 import os
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
+camera = cv2.VideoCapture(4)
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: list[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def send_personal_message(self, message: str, websocket: WebSocket):
+        await websocket.send_text(message)
+
+    async def broadcast(self, message: bytes):
+        for connection in self.active_connections:
+            await connection.send_bytes(message)
+
+
+manager = ConnectionManager()
 
 def get_realsense_data():
     subprocess.call(f"python3 accel_rrecord_30s.py --num-frames=300".split(" "))
@@ -22,6 +46,32 @@ def recording():
     else:
         return {"recording": False}
 
+# websocket logic mostly from nano-owl example repo
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    def _read_and_encode_image():
+        re, image = camera.read()
+
+        if not re:
+            return re, None
+        image_jpeg = bytes(
+                cv2.imencode(".jpg", image, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
+            )
+
+        return re, image_jpeg
+    await manager.connect(websocket)
+    try: 
+        while True:
+            re, image = _read_and_encode_image()
+                
+            if not re:
+                break
+            await manager.broadcast(image)
+
+    except WebSocketDisconnect:
+        print("disconnecting websocket")
+        manager.disconnect(websocket)
+        camera.release()
 @app.post("/api/py/record")
 def record(background_tasks: BackgroundTasks):
     if os.path.exists('recording.lock'):
