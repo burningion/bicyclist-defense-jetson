@@ -12,31 +12,6 @@ export default function Home() {
     return "data:image/jpeg;base64," + base64;
   }
 
-  var ws = undefined
-
- //console.log(window.location.host);
-
-  ws = new WebSocket("ws://ubuntu:8000/ws");
-
-  ws.onopen = function () {
-
-    console.log("Connected.");
-};
-
-ws.onclose = function () {
-    console.log("Disconnected.");
-};
-
-ws.onmessage = function (event) {
-    var camera_image = document.getElementById("camera_image");
-    var reader = new FileReader();
-    reader.readAsDataURL(event.data);
-    reader.onloadend = function () {
-        console.log("Received message.");
-        camera_image.src = reader.result;
-    }
-}
-
   const [recording, setRecording] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -48,7 +23,32 @@ ws.onmessage = function (event) {
         });
       });
     }, 1000);
+    var ws = undefined
+
+    //console.log(window.location.host);
+   
+     ws = new WebSocket("ws://ubuntu:8000/ws");
+   
+     ws.onopen = function () {
+   
+       console.log("Connected.");
+   };
+   
+   ws.onclose = function () {
+       console.log("Disconnected.");
+   };
+   
+   ws.onmessage = function (event) {
+       var camera_image = document.getElementById("camera_image");
+       var reader = new FileReader();
+       reader.readAsDataURL(event.data);
+       reader.onloadend = function () {
+           console.log("Received message.");
+           camera_image.src = reader.result;
+       }
+   }
     return () => clearInterval(interval);
+    
   }, []);
 
   function record() {
