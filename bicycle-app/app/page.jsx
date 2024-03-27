@@ -22,6 +22,7 @@ export default function Home() {
           setRecording(data.recording);
         });
       });
+      console.log("Checking recording status");
     }, 10000);
     var ws = undefined
 
