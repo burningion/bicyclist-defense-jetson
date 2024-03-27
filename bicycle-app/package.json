@@ -7,7 +7,7 @@
     "next-dev": "next dev -H 0.0.0.0",
     "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
     "build": "next build",
-    "start": "next start",
+    "start": "concurrently \"python3 -m uvicorn api.index:app --host 0.0.0.0\" \"next start\"",
     "lint": "next lint"
   },
   "dependencies": {
