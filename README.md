@@ -15,6 +15,8 @@ $ cd bicyclist-defense-jetson/bicycle-app
 $ npm run dev
 ```
 
+> **NOTE:** You may have jittery video if running the application via `npm run dev` in your web browser. This is because _some_ browsers will open two websocket connections due to the way React manages it's state in development in the page load `useEffect`. If you instead do a `npm run build`, followed by an `npm run start`, you should see the completely optimized experience.
+
 This will spin up a FastAPI server, along with the NextJS server. If you're using Tailscale, you'll be able to see your app on your Tailnet.
 
 From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later.
