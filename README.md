@@ -25,8 +25,6 @@ From there, you can click "Record 30s" and have 30s of raw sensor data recorded 
 
 ![rerun gui](./assets/rerun.png)
 
-> NOTE: On the Jetson Orin Nano you'll need to install rerun-sdk from source. Install Rust and Cargo first, and then make sure to install `just`.
-
 You have two ways of using Rerun.
 
 I currently use and run the webapp here to control recording from my iPhone. This lets me hit record when I'm out, and allows the Jetson to record to the SSD I've added to it.
