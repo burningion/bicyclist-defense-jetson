@@ -7,6 +7,9 @@ import subprocess
 import os
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
+camera = cv2.VideoCapture(4)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
 
 class ConnectionManager:
     def __init__(self):
@@ -58,9 +61,6 @@ async def websocket_endpoint(websocket: WebSocket):
 # websocket logic mostly from nano-owl example repo
 async def detection_loop(app: FastAPI):
     loop = asyncio.get_event_loop()
-    camera = cv2.VideoCapture(4)
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
 
     def _read_and_encode_image():
         re, image = camera.read()
