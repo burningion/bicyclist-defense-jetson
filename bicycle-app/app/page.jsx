@@ -13,6 +13,7 @@ export default function Home() {
   }
 
   const [recording, setRecording] = useState(false);
+  setRecording(false);
   useEffect(() => {
     const interval = setInterval(() => {
       fetch('/api/py/recording', {
