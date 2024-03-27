@@ -22,7 +22,7 @@ export default function Home() {
           setRecording(data.recording);
         });
       });
-    }, 1000);
+    }, 10000);
     var ws = undefined
 
     //console.log(window.location.host);
