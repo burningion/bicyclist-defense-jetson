@@ -43,12 +43,9 @@ export default function Home() {
        var reader = new FileReader();
        reader.readAsDataURL(event.data);
        reader.onloadend = function () {
-           console.log("Received message.");
            camera_image.src = reader.result;
        }
    }
-    return () => clearInterval(interval);
-    
   }, []);
 
   function record() {
@@ -66,7 +63,6 @@ export default function Home() {
       </div>
       <Button className="px-12 py-7 text-9xl" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds'}</Button>
       <p>This application will allow you to record your cycling trips with <a href="https://www.rerun.io/">rerun</a> for later analysis.</p>
-      
     </main>
   );
 }
