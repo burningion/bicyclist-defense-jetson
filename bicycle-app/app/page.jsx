@@ -13,7 +13,7 @@ export default function Home() {
   }
 
   const [recording, setRecording] = useState(false);
-  setRecording(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       fetch('/api/py/recording', {
@@ -25,12 +25,15 @@ export default function Home() {
       });
       console.log("Checking recording status");
     }, 10000);
+
+    if (ws !== undefined) {
     var ws = undefined
 
     //console.log(window.location.host);
    
      ws = new WebSocket("ws://ubuntu:8000/ws");
-   
+    }
+    
      ws.onopen = function () {
    
        console.log("Connected.");
