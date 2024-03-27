@@ -64,9 +64,9 @@ export default function Home() {
       <div>
       <img id="camera_image" src="" alt="Camera Image"/>
       </div>
+      <Button className="px-12 py-7 text-9xl" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds'}</Button>
       <p>This application will allow you to record your cycling trips with <a href="https://www.rerun.io/">rerun</a> for later analysis.</p>
       
-      <Button className="px-12 py-7 text-9xl" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds'}</Button>
     </main>
   );
 }
