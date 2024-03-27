@@ -10,7 +10,6 @@ import logging
 logger = logging.getLogger("uvicorn")
 logger.setLevel(logging.INFO)
 
-app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 camera = cv2.VideoCapture(4)
 camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
 camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
@@ -41,26 +40,6 @@ def get_realsense_data():
     os.remove("recording.lock")
     print("recording finished")
     return 
-
-@app.get("/api/py/healthcheck")
-def healthchecker():
-    return {"status": "success", "message": "Integrated FastAPI Framework with Next.js successfully!"}
-
-@app.get("/api/py/recording")
-def recording():
-    if os.path.exists('recording.lock'):
-        return {"recording": True}
-    else:
-        return {"recording": False}
-
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await manager.connect(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
 
 # websocket logic mostly from nano-owl example repo
 async def detection_loop(app: FastAPI):
@@ -100,6 +79,28 @@ async def run_detection(app: FastAPI):
         raise
     finally:
         await task
+
+app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json", lifespan=run_detection)
+
+@app.get("/api/py/healthcheck")
+def healthchecker():
+    return {"status": "success", "message": "Integrated FastAPI Framework with Next.js successfully!"}
+
+@app.get("/api/py/recording")
+def recording():
+    if os.path.exists('recording.lock'):
+        return {"recording": True}
+    else:
+        return {"recording": False}
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
 
 @app.post("/api/py/record")
 def record(background_tasks: BackgroundTasks):
