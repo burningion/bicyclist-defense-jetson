@@ -49,7 +49,7 @@ def recording():
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    manager.connect(websocket)
+    await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
