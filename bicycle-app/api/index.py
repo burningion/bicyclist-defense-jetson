@@ -5,6 +5,10 @@ import asyncio
 import subprocess
 
 import os
+import logging
+
+logger = logging.getLogger("uvicorn")
+logger.setLevel(logging.INFO)
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 camera = cv2.VideoCapture(4)
@@ -61,7 +65,7 @@ async def websocket_endpoint(websocket: WebSocket):
 # websocket logic mostly from nano-owl example repo
 async def detection_loop(app: FastAPI):
     loop = asyncio.get_event_loop()
-
+    logger.info("Detection Loop Started")
     def _read_and_encode_image():
         re, image = camera.read()
 
@@ -75,10 +79,11 @@ async def detection_loop(app: FastAPI):
 
     while True:
         re, image = await loop.run_in_executor(None, _read_and_encode_image)
-        print(f"re: {re}")
+        logger.info(f"re: {re}")
         if not re:
+            logger.info("Camera not connected!")
             break
-        print(f"manager: {manager.active_connections}")
+        logger.info(f"manager: {manager.active_connections}")
         await manager.broadcast(image)
 
     camera.release()
@@ -90,6 +95,7 @@ async def run_detection(app: FastAPI):
         yield
         task.cancel()
     except asyncio.CancelledError:
+        logger.info("Run Detection Cancelled")
         task.cancel()
         raise
     finally:
