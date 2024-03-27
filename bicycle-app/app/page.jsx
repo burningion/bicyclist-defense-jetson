@@ -26,13 +26,11 @@ export default function Home() {
       console.log("Checking recording status");
     }, 10000);
 
-    if (ws !== undefined) {
     var ws = undefined
 
     //console.log(window.location.host);
    
      ws = new WebSocket("ws://ubuntu:8000/ws");
-    }
     
      ws.onopen = function () {
    
