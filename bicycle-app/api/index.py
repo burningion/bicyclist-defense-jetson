@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import BackgroundTasks, FastAPI, WebSocket, WebSocketDisconnect
 import cv2
 import asyncio
@@ -6,9 +7,6 @@ import subprocess
 import os
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
-camera = cv2.VideoCapture(4)
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
 
 class ConnectionManager:
     def __init__(self):
@@ -48,9 +46,23 @@ def recording():
     else:
         return {"recording": False}
 
-# websocket logic mostly from nano-owl example repo
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+
+# websocket logic mostly from nano-owl example repo
+async def detection_loop(app: FastAPI):
+    loop = asyncio.get_event_loop()
+    camera = cv2.VideoCapture(4)
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
+
     def _read_and_encode_image():
         re, image = camera.read()
 
@@ -61,19 +73,28 @@ async def websocket_endpoint(websocket: WebSocket):
             )
 
         return re, image_jpeg
-    await manager.connect(websocket)
-    try: 
-        while True:
-            re, image = _read_and_encode_image()
-                
-            if not re:
-                break
-            await manager.broadcast(image)
 
-    except WebSocketDisconnect:
-        print("disconnecting websocket")
-        manager.disconnect(websocket)
+    while True:
+        re, image = await loop.run_in_executor(None, _read_and_encode_image)
+        
+        if not re:
+            break
+        await manager.broadcast(image)
+
+    camera.release()
     
+@asynccontextmanager
+async def run_detection(app: FastAPI):
+    try:
+        task = asyncio.create_task(detection_loop(app))
+        yield
+        task.cancel()
+    except asyncio.CancelledError:
+        task.cancel()
+        raise
+    finally:
+        await task
+
 @app.post("/api/py/record")
 def record(background_tasks: BackgroundTasks):
     if os.path.exists('recording.lock'):
