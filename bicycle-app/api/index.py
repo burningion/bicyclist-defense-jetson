@@ -58,11 +58,9 @@ async def detection_loop(app: FastAPI):
 
     while True:
         re, image = await loop.run_in_executor(None, _read_and_encode_image)
-        logger.info(f"re: {re}")
         if not re:
             logger.info("Camera not connected!")
             break
-        logger.info(f"manager: {manager.active_connections}")
         await manager.broadcast(image)
 
     camera.release()
