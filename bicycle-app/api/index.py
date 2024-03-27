@@ -7,8 +7,8 @@ import os
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 camera = cv2.VideoCapture(4)
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
 
 class ConnectionManager:
     def __init__(self):
