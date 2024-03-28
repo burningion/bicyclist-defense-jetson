@@ -13,6 +13,7 @@ export default function Home() {
   }
 
   const [recording, setRecording] = useState(false);
+  const [recording_video, setRecordingVideo] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,7 +56,21 @@ export default function Home() {
     setRecording(true);
     fetch('/api/py/record', {
       method: 'POST',
-    });
+    });  
+  }
+
+  function record_video() {
+    if (recording_video) {
+      setRecordingVideo(false);
+      fetch('/api/py/stop-video', {
+        method: 'POST',
+      });
+    } else {
+      setRecordingVideo(true);
+      fetch('/api/py/record-video', {
+        method: 'POST',
+      });
+    }
   }
 
   return (
@@ -64,7 +79,8 @@ export default function Home() {
       <div>
       <img id="camera_image" src="" alt="Camera Image"/>
       </div>
-      <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds'}</button>
+      <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds with Sensor'}</button>
+      <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record_video}>{recording_video? 'Stop Recording' : 'Record Video'}</button>
       <p>This application will allow you to record your cycling trips with <a href="https://www.rerun.io/">rerun</a> for later analysis.</p>
     </main>
   );
