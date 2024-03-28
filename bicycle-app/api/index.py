@@ -62,15 +62,15 @@ async def detection_loop(app: FastAPI):
                 cv2.imencode(".jpg", image, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
             )
 
-        return re, image_jpeg
+        return re, image_jpeg, Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
     while True:
-        re, image = await loop.run_in_executor(None, _read_and_encode_image)
+        re, image, raw_image = await loop.run_in_executor(None, _read_and_encode_image)
         if not re:
             logger.info("Camera not connected!")
             break
         if manager.is_recording:
-            frame = av.VideoFrame.from_image(Image.open(io.BytesIO(image)))
+            frame = av.VideoFrame.from_image(raw_image)
             for packet in manager.stream.encode(frame):
                 manager.output.mux(packet)
         await manager.broadcast(image)
