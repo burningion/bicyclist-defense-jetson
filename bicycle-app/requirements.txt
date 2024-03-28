@@ -1,3 +1,4 @@
 av
 fastapi==0.109.0
+Pillow
 uvicorn[standard]==0.27.0

@@ -6,6 +6,9 @@ import cv2
 import asyncio
 import subprocess
 
+from PIL import Image
+
+import io
 import os
 import logging
 
@@ -67,8 +70,9 @@ async def detection_loop(app: FastAPI):
             logger.info("Camera not connected!")
             break
         if manager.is_recording:
-            packet = Packet(image)
-            manager.output.mux(packet)
+            frame = av.VideoFrame.from_image(Image.open(io.BytesIO(image)))
+            for packet in manager.stream.encode(frame):
+                manager.output.mux(packet)
         await manager.broadcast(image)
 
     camera.release()
@@ -114,7 +118,7 @@ def record_video(background_tasks: BackgroundTasks):
         return {"message": "Already recording"}
     else:
         manager.is_recording = True
-        manager.output = av.open('/tmp/output.mp4', mode='w')
+        manager.output = av.open('output.mp4', mode='w')
         manager.stream = manager.output.add_stream('libx264', rate=30)
         manager.stream.width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
         manager.stream.height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
