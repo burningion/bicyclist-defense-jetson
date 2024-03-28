@@ -129,7 +129,7 @@ def record_video(background_tasks: BackgroundTasks):
 def stop_recording_video():
     if manager.is_recording:
         manager.is_recording = False
-        for packet in stream.encode():
+        for packet in manager.stream.encode():
             manager.output.mux(packet)
         manager.output.close()
         return {"message": "Recording stopped"}
