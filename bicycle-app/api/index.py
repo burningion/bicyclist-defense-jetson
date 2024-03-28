@@ -1,5 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import BackgroundTasks, FastAPI, WebSocket, WebSocketDisconnect
+import av
+from av.packet import Packet
 import cv2
 import asyncio
 import subprocess
@@ -17,6 +19,9 @@ camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
 class ConnectionManager:
     def __init__(self):
         self.active_connections: list[WebSocket] = []
+        self.is_recording = False
+        self.output = None
+        self.stream = None
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
@@ -61,6 +66,12 @@ async def detection_loop(app: FastAPI):
         if not re:
             logger.info("Camera not connected!")
             break
+        if manager.is_recording:
+            packet = Packet(image)
+            frames = list(manager.output.decode(packet))
+            for frame in frames:
+                for packet in manager.stream.encode(frame):
+                    manager.output.mux(packet)
         await manager.broadcast(image)
 
     camera.release()
@@ -99,6 +110,31 @@ async def websocket_endpoint(websocket: WebSocket):
             data = await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+
+@app.post("/api/py/record-video")
+def record_video(background_tasks: BackgroundTasks):
+    if manager.is_recording:
+        return {"message": "Already recording"}
+    else:
+        manager.is_recording = True
+        manager.output = av.open('output.h264', mode='w')
+        manager.stream = manager.output.add_stream('libx264', rate=30)
+        manager.stream.width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+        manager.stream.height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        manager.stream.pix_fmt = 'yuv420p'
+
+        return {"message": "Recording started"}
+
+@app.post("/api/py/stop-video")
+def stop_recording_video():
+    if manager.is_recording:
+        manager.is_recording = False
+        for packet in stream.encode():
+            manager.output.mux(packet)
+        manager.output.close()
+        return {"message": "Recording stopped"}
+    else:
+        return {"message": "Not recording"}
 
 @app.post("/api/py/record")
 def record(background_tasks: BackgroundTasks):
