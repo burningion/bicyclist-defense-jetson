@@ -69,6 +69,7 @@ async def detection_loop(app: FastAPI):
         if manager.is_recording:
             packet = Packet(image)
             frames = list(manager.output.decode(packet))
+            print(f"frames: {frames}")
             for frame in frames:
                 for packet in manager.stream.encode(frame):
                     manager.output.mux(packet)
