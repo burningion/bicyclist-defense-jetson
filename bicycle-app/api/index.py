@@ -117,7 +117,7 @@ def record_video(background_tasks: BackgroundTasks):
         return {"message": "Already recording"}
     else:
         manager.is_recording = True
-        manager.output = av.open('output.h264', mode='w')
+        manager.output = av.open('/tmp/output.mp4', mode='w')
         manager.stream = manager.output.add_stream('libx264', rate=30)
         manager.stream.width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
         manager.stream.height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
