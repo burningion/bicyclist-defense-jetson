@@ -16,8 +16,8 @@ logger = logging.getLogger("uvicorn")
 logger.setLevel(logging.INFO)
 
 camera = cv2.VideoCapture(4)
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 270)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 class ConnectionManager:
     def __init__(self):
