@@ -55,11 +55,21 @@ async def detection_loop(app: FastAPI):
     logger.info("Detection Loop Started")
     def _read_and_encode_image():
         re, image = camera.read()
-
         if not re:
             return re, None
+        image_copy = image.copy() 
+        if manager.is_recording: # Add a red bar to indicate recording
+            bar_height = 50  # Adjust the thickness of the bar
+            color = (0, 0, 255)  # Red color in BGR format
+            image_height, image_width = image.shape[:2]
+            # The top-left corner of the rectangle (x1, y1)
+            x1, y1 = 0, image_height - bar_height
+            # The bottom-right corner of the rectangle (x2, y2)
+            x2, y2 = image_width, image_height
+            cv2.rectangle(image_copy, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
+
         image_jpeg = bytes(
-                cv2.imencode(".jpg", image, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
+                cv2.imencode(".jpg", image_copy, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
             )
 
         return re, image_jpeg, Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
