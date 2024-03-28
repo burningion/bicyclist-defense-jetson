@@ -62,12 +62,12 @@ export default function Home() {
   function record_video() {
     if (recording_video) {
       setRecordingVideo(false);
-      fetch('http://ubuntu:8000/api/py/stop-video', {
+      fetch('/api/py/stop-video', {
         method: 'POST',
       });
     } else {
       setRecordingVideo(true);
-      fetch('http://ubuntu:8000/api/py/record-video', {
+      fetch('/api/py/record-video', {
         method: 'POST',
       });
     }
