@@ -6,6 +6,8 @@ import cv2
 import asyncio
 import subprocess
 
+import threading
+
 from PIL import Image
 
 import os
@@ -43,6 +45,12 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+toggle_flag = False
+def toggle():
+    global toggle_flag
+    toggle_flag = not toggle_flag
+    threading.Timer(0.5, toggle).start()
+
 def get_realsense_data():
     subprocess.call(f"python3 accel_rrecord_30s.py --num-frames=300".split(" "))
     os.remove("recording.lock")
@@ -66,7 +74,8 @@ async def detection_loop(app: FastAPI):
             x1, y1 = 0, image_height - bar_height
             # The bottom-right corner of the rectangle (x2, y2)
             x2, y2 = image_width, image_height
-            cv2.rectangle(image_copy, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
+            if toggle_flag:
+                cv2.rectangle(image_copy, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
 
         image_jpeg = bytes(
                 cv2.imencode(".jpg", image_copy, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
