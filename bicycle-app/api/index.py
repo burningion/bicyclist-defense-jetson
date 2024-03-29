@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import BackgroundTasks, FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 import av
 from av.packet import Packet
 import cv2
@@ -105,6 +106,20 @@ async def run_detection(app: FastAPI):
         await task
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json", lifespan=run_detection)
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://ubuntu:3000",
+    "http://ubuntu",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api/py/healthcheck")
 def healthchecker():
