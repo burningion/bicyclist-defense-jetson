@@ -67,7 +67,7 @@ export default function Home() {
       });
     } else {
       setRecordingVideo(true);
-      fetch('/api/py/record-video', {
+      fetch('h/api/py/record-video', {
         method: 'POST',
       });
     }
@@ -79,8 +79,12 @@ export default function Home() {
       <div>
       <img id="camera_image" src="" alt="Camera Image"/>
       </div>
-      <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds with Sensor'}</button>
-      <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record_video}>{recording_video? 'Stop Recording' : 'Record Video'}</button>
+      <div className="container mx-auto px-4">
+        <div class="flex justify-center space-x-4">
+          <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds with Sensor'}</button>
+          <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record_video}>{recording_video? 'Stop Recording' : 'Record Video'}</button>
+        </div>
+      </div>
       <p>This application will allow you to record your cycling trips with <a href="https://www.rerun.io/">rerun</a> for later analysis.</p>
     </main>
   );
