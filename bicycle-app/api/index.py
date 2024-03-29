@@ -50,6 +50,7 @@ def toggle():
     global toggle_flag
     toggle_flag = not toggle_flag
     threading.Timer(0.5, toggle).start()
+toggle()
 
 def get_realsense_data():
     subprocess.call(f"python3 accel_rrecord_30s.py --num-frames=300".split(" "))
