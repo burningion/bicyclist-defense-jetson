@@ -59,6 +59,14 @@ ubuntu launch.sh[45949]: [1]  ✓ Ready in 676ms
 
 And then you should be able to visit the service at port 3000.
 
+If you'd like to monitor your application, I recommmend using the [jetson_stats](https://github.com/rbonghi/jetson_stats) project. Install it with pip:
+
+```bash
+$ sudo pip3 install -U jetson-stats
+```
+
+Reboot the Jetson, and run it with a `jtop` to monitor usage.
+
 ## Replaying in Rerun
 
 ![rerun gui](./assets/rerun.png)
