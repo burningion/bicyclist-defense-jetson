@@ -44,12 +44,14 @@ class ConnectionManager:
 
 
 manager = ConnectionManager()
+bouncingTimer = True
 
 toggle_flag = False
 def toggle():
     global toggle_flag
     toggle_flag = not toggle_flag
-    threading.Timer(0.5, toggle).start()
+    if bouncingTimer:
+        threading.Timer(0.5, toggle).start()
 toggle()
 
 def get_realsense_data():
@@ -99,10 +101,13 @@ async def detection_loop(app: FastAPI):
     
 @asynccontextmanager
 async def run_detection(app: FastAPI):
+    global bouncingTimer
     try:
         task = asyncio.create_task(detection_loop(app))
         yield
+        bouncingTimer = False
         task.cancel()
+
     except asyncio.CancelledError:
         logger.info("Run Detection Cancelled")
         task.cancel()

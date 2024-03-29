@@ -80,7 +80,7 @@ export default function Home() {
       <img id="camera_image" src="" alt="Camera Image"/>
       </div>
       <div className="container mx-auto px-4">
-        <div class="flex justify-center space-x-4">
+        <div className="flex justify-center space-x-4">
           <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record} disabled={recording}>{recording? 'Recording' : 'Record 30 seconds with Sensor'}</button>
           <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record_video}>{recording_video? 'Stop Recording' : 'Record Video'}</button>
         </div>
