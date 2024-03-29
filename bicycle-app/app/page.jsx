@@ -67,7 +67,7 @@ export default function Home() {
       });
     } else {
       setRecordingVideo(true);
-      fetch('h/api/py/record-video', {
+      fetch('/api/py/record-video', {
         method: 'POST',
       });
     }
