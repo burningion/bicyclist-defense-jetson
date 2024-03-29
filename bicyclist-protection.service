@@ -1,0 +1,12 @@
+[Unit]
+Description=Description of My Script
+After=network.target
+
+[Service]
+Type=simple
+User=stankley
+ExecStart=/home/stankley/Development/bicyclist-defense-jetson/bicycle-app/launch.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

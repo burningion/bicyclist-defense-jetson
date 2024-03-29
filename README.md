@@ -26,7 +26,38 @@ $ npm run dev
 
 This will spin up a FastAPI server, along with the NextJS server. If you're using Tailscale, you'll be able to see your app on your Tailnet.
 
-From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later.
+From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later. Alternatively, you can click "Record Video", and record as much video of your trip as you like, saved with a timestamp of the beginning of the recording in MP4 format.
+
+## Running the Server on Startup
+
+I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
+
+You'll need to replace my username with your username, and the location of this repository's installation there too.
+
+I use [nvm](https://github.com/nvm-sh/nvm) to manage my Node version, so the script loads and does that, as set in `bicycle-app/launch.sh`. Double check that your username and path are set here, replace my values with the ones that match your setup. Then you can reload systemctl and start the service:
+
+```bash
+$ sudo systemctl daemon-reload
+$ sudo systemctl start bicyclist-protection.service
+```
+
+You can check to see if the service started successfully by running a:
+
+```bash
+$ journalctl -u  bicyclist-protection
+```
+
+If everything went well, you should see something like:
+
+```bash
+ubuntu launch.sh[45933]: > concurrently "python3 -m uvicorn api.index:app --host 0.0.0.0" "next start"
+ubuntu launch.sh[45949]: [1]    ▲ Next.js 14.1.0
+ubuntu launch.sh[45949]: [1]    - Local:        http://localhost:3000
+ubuntu launch.sh[45949]: [1]
+ubuntu launch.sh[45949]: [1]  ✓ Ready in 676ms
+```
+
+And then you should be able to visit the service at port 3000.
 
 ## Replaying in Rerun
 
