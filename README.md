@@ -28,6 +28,8 @@ This will spin up a FastAPI server, along with the NextJS server. If you're usin
 
 From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later. Alternatively, you can click "Record Video", and record as much video of your trip as you like, saved with a timestamp of the beginning of the recording in MP4 format.
 
+> Note: trtexec is in the container at: /usr/src/tensorrt/bin/trtexec
+
 ## Running the Server on Startup
 
 I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
@@ -66,6 +68,7 @@ $ sudo pip3 install -U jetson-stats
 ```
 
 Reboot the Jetson, and run it with a `jtop` to monitor usage.
+
 
 ## Replaying in Rerun
 
