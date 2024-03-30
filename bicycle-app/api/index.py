@@ -9,6 +9,9 @@ import subprocess
 
 import threading
 from nanoowl.owl_predictor import OwlPredictor
+from nanoowl.owl_drawing import (
+    draw_owl_output
+)
 
 from PIL import Image
 
@@ -18,6 +21,18 @@ from datetime import datetime
 
 logger = logging.getLogger("uvicorn")
 logger.setLevel(logging.INFO)
+
+prompt = ["a person", "a car", "a truck", "a van"]
+thresholds = [0.2, 0.2, 0.2, 0.2]
+predictor_model = "google/owlvit-base-patch32" 
+image_encoder_engine = "/opt/nanoowl/data/owl_image_encoder_patch32.engine" # if running in the container!
+
+predictor = OwlPredictor(
+        predictor_model,
+        image_encoder_engine=image_encoder_engine
+)
+
+text_encodings = predictor.encode_text(prompt)
 
 camera = cv2.VideoCapture(4)
 camera.set(cv2.CAP_PROP_FRAME_WIDTH, 848)
@@ -47,6 +62,10 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+def cv2_to_pil(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    return Image.fromarray(image)
+
 def get_realsense_data():
     subprocess.call(f"python3 accel_rrecord_30s.py --num-frames=300".split(" "))
     os.remove("recording.lock")
@@ -61,7 +80,16 @@ async def detection_loop(app: FastAPI):
         re, image = camera.read()
         if not re:
             return re, None
-        image_copy = image.copy() 
+        
+        image_pil = cv2_to_pil(image)
+        output = predictor.predict(
+                    image=image_pil, 
+                    text=prompt, 
+                    text_encodings=text_encodings,
+                    threshold=thresholds,
+                    pad_square=False)
+        owl_image = draw_owl_output(image, output, text=prompt, draw_text=True)
+        # image_copy = image.copy()
         if manager.is_recording: # Add a red bar to indicate recording
             bar_height = 50  # Adjust the thickness of the bar
             color = (0, 0, 255)  # Red color in BGR format
@@ -73,13 +101,14 @@ async def detection_loop(app: FastAPI):
             cv2.rectangle(image_copy, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
 
         image_jpeg = bytes(
-                cv2.imencode(".jpg", image_copy, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
+                cv2.imencode(".jpg", owl_image, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
             )
 
         return re, image_jpeg, Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
     while True:
         re, image, raw_image = await loop.run_in_executor(None, _read_and_encode_image)
+
         if not re:
             logger.info("Camera not connected!")
             break
