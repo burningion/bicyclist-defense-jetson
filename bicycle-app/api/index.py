@@ -25,7 +25,7 @@ logger.setLevel(logging.INFO)
 prompt = ["a person", "a car", "a truck", "a van"]
 thresholds = [0.1, 0.1, 0.1, 0.1]
 predictor_model = "google/owlvit-base-patch32" 
-image_encoder_engine = "/opt/nanoowl/data/image_encoder_patch32.engine" # if running in the container!
+image_encoder_engine = "/opt/nanoowl/data/owl_image_encoder_patch32.engine" # if running in the container!
 
 predictor = OwlPredictor(
         predictor_model,
@@ -88,8 +88,8 @@ async def detection_loop(app: FastAPI):
                     text_encodings=text_encodings,
                     threshold=thresholds,
                     pad_square=False)
-        image = draw_owl_output(image, output, text=prompt, draw_text=True)
-        image_copy = image.copy()
+        owl_image = draw_owl_output(image, output, text=prompt, draw_text=True)
+        # image_copy = image.copy()
         if manager.is_recording: # Add a red bar to indicate recording
             bar_height = 50  # Adjust the thickness of the bar
             color = (0, 0, 255)  # Red color in BGR format
@@ -101,7 +101,7 @@ async def detection_loop(app: FastAPI):
             cv2.rectangle(image_copy, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
 
         image_jpeg = bytes(
-                cv2.imencode(".jpg", image_copy, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
+                cv2.imencode(".jpg", owl_image, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
             )
 
         return re, image_jpeg, Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
