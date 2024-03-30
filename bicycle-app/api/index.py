@@ -98,7 +98,7 @@ async def detection_loop(app: FastAPI):
             x1, y1 = 0, image_height - bar_height
             # The bottom-right corner of the rectangle (x2, y2)
             x2, y2 = image_width, image_height
-            cv2.rectangle(image_copy, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
+            cv2.rectangle(owl_image, (x1, y1), (x2, y2), color, thickness=cv2.FILLED)
 
         image_jpeg = bytes(
                 cv2.imencode(".jpg", owl_image, [cv2.IMWRITE_JPEG_QUALITY, 50])[1]
