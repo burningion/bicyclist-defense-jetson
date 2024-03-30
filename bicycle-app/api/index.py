@@ -8,6 +8,7 @@ import asyncio
 import subprocess
 
 import threading
+from nanoowl.owl_predictor import OwlPredictor
 
 from PIL import Image
 
