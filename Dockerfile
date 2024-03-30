@@ -9,4 +9,4 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |  RUSTUP_PERMIT_C
 RUN pip install --pre -f https://build.rerun.io/commit/71ecddb/wheels --upgrade rerun-sdk
 RUN cd /opt/nanoowl/ && git pull
 RUN cd /opt && git clone https://github.com/NVIDIA-AI-IOT/nanosam && cd nanosam && python3 setup.py develop --user
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && nvm install 20
+RUN apt-get update && apt-get install nodejs npm
