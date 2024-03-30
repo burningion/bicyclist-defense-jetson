@@ -23,7 +23,7 @@ logger = logging.getLogger("uvicorn")
 logger.setLevel(logging.INFO)
 
 prompt = ["a person", "a car", "a truck", "a van"]
-thresholds = [0.1, 0.1, 0.1, 0.1]
+thresholds = [0.2, 0.2, 0.2, 0.2]
 predictor_model = "google/owlvit-base-patch32" 
 image_encoder_engine = "/opt/nanoowl/data/owl_image_encoder_patch32.engine" # if running in the container!
 
