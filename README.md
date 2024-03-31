@@ -18,7 +18,7 @@ I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in
 
 ![live webcam feed](./assets/recording.gif)
 
-The main application is a NextJS and FastAPI server. For data collection, you'll need to have the ffmpeg libraries installed:
+The main application is a NextJS and FastAPI server running off the Owl-ViT model. For data collection via h264 video recordings, you'll need to have the ffmpeg libraries installed:
 
 ```
 $ sudo apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev
