@@ -40,8 +40,60 @@ This will spin up a FastAPI server, along with the NextJS server. If you're usin
 
 From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later. Alternatively, you can click "Record Video", and record as much video of your trip as you like, saved with a timestamp of the beginning of the recording in MP4 format.
 
-
 > Note: trtexec is in the container at: /usr/src/tensorrt/bin/trtexec
+
+## Replaying in Rerun
+
+![rerun gui](./assets/rerun.png)
+
+You have two ways of using Rerun.
+
+I currently use and run the webapp here to control recording from my iPhone. This lets me hit record when I'm out, and allows the Jetson to record to the SSD I've added to it.
+
+But when I'm developing or adding new sensors, I use an iPython session, and connect to my desktop version of Rerun.
+
+To do this I:
+
+```python
+import rerun as rr
+import numpy as np
+
+rr.init("realsense")
+# connect to my macbook on tailscale
+rr.connect("100.79.94.136:9876")
+
+rr.log("any value name", rr.Image(...)) # log your datastructure here
+```
+
+The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
+
+## Networking Setup
+
+I've installed Tailscale on my iPhone and my Jetson Orin Nano. 
+
+Once I've done that, I can set up my Jetson Orin Nano to run a webserver accessible from my phone. My Jetson Orin Nano just needs to tether the hotspot from my iPhone while on bicycle rides.
+
+For some reason, I wasn't able to discover the Wifi hotspot from my iPhone until _after_ my laptop connected to it. 
+
+So, in order to have this work:
+```
+Enable Wifi hotspot on iPhone -> Connect with laptop -> Scan for Wifi -> Find the right mac address -> connect w/ password
+```
+
+These commands will scan for the wifi:
+
+```bash
+$ sudo nmcli dev wifi rescan
+$ sudo nmcli dev wifi
+```
+
+And then once you see the address of your Wifi hotspot name you can:
+
+```
+$ sudo nmcli d wifi connect AS:0D:20:20:92 password theactualpassword
+```
+
+From there, each time you bring up the Jetson, it will autoconnect to the Wifi hotspot.
 
 ## Running the Server on Startup
 
@@ -83,60 +135,6 @@ $ sudo pip3 install -U jetson-stats
 Reboot the Jetson, and run it with a `jtop` to monitor usage.
 
 ![JTOP](./assets/jtop.png)
-
-## Replaying in Rerun
-
-![rerun gui](./assets/rerun.png)
-
-You have two ways of using Rerun.
-
-I currently use and run the webapp here to control recording from my iPhone. This lets me hit record when I'm out, and allows the Jetson to record to the SSD I've added to it.
-
-But when I'm developing or adding new sensors, I use an iPython session, and connect to my desktop version of Rerun.
-
-To do this I:
-
-```python
-import rerun as rr
-import numpy as np
-
-rr.init("realsense")
-# connect to my macbook on tailscale
-rr.connect("100.79.94.136:9876")
-
-rr.log("any value name", rr.Image(...)) # log your datastructure here
-```
-
-The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
-
-
-## Networking Setup
-
-I've installed Tailscale on my iPhone and my Jetson Orin Nano. 
-
-Once I've done that, I can set up my Jetson Orin Nano to run a webserver accessible from my phone. My Jetson Orin Nano just needs to tether the hotspot from my iPhone while on bicycle rides.
-
-For some reason, I wasn't able to discover the Wifi hotspot from my iPhone until _after_ my laptop connected to it. 
-
-So, in order to have this work:
-```
-Enable Wifi hotspot on iPhone -> Connect with laptop -> Scan for Wifi -> Find the right mac address -> connect w/ password
-```
-
-These commands will scan for the wifi:
-
-```bash
-$ sudo nmcli dev wifi rescan
-$ sudo nmcli dev wifi
-```
-
-And then once you see the address of your Wifi hotspot name you can:
-
-```
-$ sudo nmcli d wifi connect AS:0D:20:20:92 password theactualpassword
-```
-
-From there, each time you bring up the Jetson, it will autoconnect to the Wifi hotspot.
 
 ## Realsense Installation on Jetson Orin Nano
 
