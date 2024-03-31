@@ -6,7 +6,7 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 This project attempts to build a bicyclist warning system for erratic drivers. It aims to use computer vision along with radar to track cars which may present a threat to the bicyclist, and warn them before a collision occurs.
 
-It currently runs Owl-ViT to track cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. There are two buttons in the app, one to record mmWave sensor data and images for training a model, and another to record videos of your trips, to build help build a dataset for distillation, keep track of dangerous drivers, or just record your rides. 
+It currently runs Owl-ViT via [NanoOWL](https://github.com/NVIDIA-AI-IOT/nanoowl) to track cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. There are two buttons in the app, one to record mmWave sensor data and images for training a model, and another to record videos of your trips, to build help build a dataset for distillation, keep track of dangerous drivers, or just record your rides. 
 
 ## Hardware Setup
 
@@ -45,7 +45,7 @@ From there, you can click "Record 30s" and have 30s of raw sensor data recorded 
 
 ## Running the Server on Startup
 
-I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
+If you want to have the webserver start when your Jetson is turned on, I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
 
 You'll need to replace my username with your username, and the location of this repository's installation there too.
 
