@@ -4,6 +4,16 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 ![Bicyclist Safety Architecture Diagram](./assets/bicyclist-safety.png)
 
+This project attempts to build a bicyclist warning system for erratic drivers. It aims to use computer vision along with radar to track cars which may present a threat to the bicyclist, and warn them before a collision occurs.
+
+It currently runs Owl-ViT to track cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. There are two buttons in the app, one to record mmWave sensor data along with raw images for training a model to track cars, and another to record videos of your trips, to build a dataset for distillation, and / or to keep track of dangerous drivers.
+
+## Hardware Setup
+
+![hardware setup](./assets/hardware.png)
+
+I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my [power supply](https://amzn.to/3S5dIl6) when doing development on my workbench.
+
 ## Recording a Bicycle Trip
 
 ![live webcam feed](./assets/recording.gif)
@@ -95,11 +105,6 @@ rr.log("any value name", rr.Image(...)) # log your datastructure here
 
 The big point is the IP address of my laptop or desktop in the `rr.connect` line. This let's me just stream values over the Tailscale network and see if I've got my data structures right.
 
-## Hardware Setup
-
-![hardware setup](./assets/hardware.png)
-
-I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my [power supply](https://amzn.to/3S5dIl6) when doing development on my workbench.
 
 ## Networking Setup
 
