@@ -6,7 +6,7 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 ## Recording a Bicycle Trip
 
-![live webcam feed](./assets/live-feed.png)
+![live webcam feed](./assets/recording.gif)
 
 The main application is a NextJS and FastAPI server. For data collection, you'll need to have the ffmpeg libraries installed:
 
