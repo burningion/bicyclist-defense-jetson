@@ -32,11 +32,14 @@ $ npm i
 $ npm run dev
 ```
 
+Or, use the `launch_bicycle.sh` script to build and run a container with the app set up. You'll still need to start the application manually, via `cd /bicyclist/bicycle-app`, followed by a `npm i`.
+
 > **NOTE:** You may have jittery video if running the application via `npm run dev` in your web browser. This is because _some_ browsers will open two websocket connections due to the way React manages it's state in development in the page load `useEffect`. If you instead do a `npm run build`, followed by an `npm run start`, you should see the completely optimized experience without jitter.
 
-This will spin up a FastAPI server, along with the NextJS server. If you're using Tailscale, you'll be able to see your app on your Tailnet.
+This will spin up a FastAPI server, along with the NextJS server. If you're using Tailscale, you'll be able to see your app from the iPhone if you have the Tailscale app installed and the Jetson is on your Tailnet.
 
 From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later. Alternatively, you can click "Record Video", and record as much video of your trip as you like, saved with a timestamp of the beginning of the recording in MP4 format.
+
 
 > Note: trtexec is in the container at: /usr/src/tensorrt/bin/trtexec
 
@@ -79,6 +82,7 @@ $ sudo pip3 install -U jetson-stats
 
 Reboot the Jetson, and run it with a `jtop` to monitor usage.
 
+![JTOP](./assets/jtop.png)
 
 ## Replaying in Rerun
 
