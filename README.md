@@ -4,9 +4,11 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 ![Bicyclist Safety Architecture Diagram](./assets/bicyclist-safety.png)
 
-This project attempts to build a bicyclist warning system for erratic drivers. It aims to use computer vision along with radar to track cars which may present a threat to the bicyclist, and warn them before a collision occurs.
+This project attempts to build a bicyclist warning system for erratic drivers. It aims to use computer vision along with radar to track cars which may present a threat to the bicyclist, and warn them before a potential collision occurs.
 
-It currently runs Owl-ViT via [NanoOWL](https://github.com/NVIDIA-AI-IOT/nanoowl) to track cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. There are two buttons in the app, one to record mmWave sensor data and images for training a model, and another to record videos of your trips, to build help build a dataset for distillation, keep track of dangerous drivers, or just record your rides. 
+It currently runs Owl-ViT via [NanoOWL](https://github.com/NVIDIA-AI-IOT/nanoowl) to track and highlight cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. 
+
+There are two buttons in the app, one to record mmWave sensor data and images for training a model, and another to record videos of your trips. This is useful to build help build a dataset for distillation (improving the framerate of the inference model), keep recordings of dangerous drivers, or just record and visualize your rides. 
 
 ## Hardware Setup
 
@@ -14,7 +16,7 @@ It currently runs Owl-ViT via [NanoOWL](https://github.com/NVIDIA-AI-IOT/nanoowl
 
 I run the device off a [DeWalt 20v](https://amzn.to/3SxmQk0) battery, plugged in to an adapter. I added a second line, going through a [5v BEC](https://amzn.to/4b7muI5) and a [second male plug](https://amzn.to/4b8xjtA) for allowing me to run off my [power supply](https://amzn.to/3S5dIl6) when doing development on my workbench.
 
-## Recording a Bicycle Trip
+## Starting the Server and Recording a Bicycle Trip
 
 ![live webcam feed](./assets/recording.gif)
 
@@ -38,7 +40,9 @@ Or, use the `launch_bicycle.sh` script to build and run a container with the app
 
 This will spin up a FastAPI server, along with the NextJS server. If you're using Tailscale, you'll be able to see your app from the iPhone if you have the Tailscale app installed and the Jetson is on your Tailnet.
 
-From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later. Alternatively, you can click "Record Video", and record as much video of your trip as you like, saved with a timestamp of the beginning of the recording in MP4 format.
+From there, you can click "Record 30s" and have 30s of raw sensor data recorded for analysis later. 
+
+Alternatively, you can click "Record Video", and record as much video of your trip as you like, saved with a timestamp of the beginning of the recording in MP4 format.
 
 > Note: trtexec is in the container at: /usr/src/tensorrt/bin/trtexec
 
