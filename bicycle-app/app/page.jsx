@@ -75,7 +75,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-2xl">Bicycle Recording App</h1>
+      <h1 className="text-2xl">Bicycle Safety</h1>
       <div>
       <img id="camera_image" src="" alt="Camera Image"/>
       </div>
@@ -85,7 +85,7 @@ export default function Home() {
           <button className="px-12 py-7 text-xl bg-slate-800 text-slate-50 rounded-full" onClick={record_video}>{recording_video? 'Stop Recording' : 'Record Video'}</button>
         </div>
       </div>
-      <p>This application will allow you to record your cycling trips with <a href="https://www.rerun.io/">rerun</a> for later analysis.</p>
+      <p>This application will allow you to record your cycling trips for later safety analysis.</p>
     </main>
   );
 }
