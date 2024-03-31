@@ -73,6 +73,8 @@ The big point is the IP address of my laptop or desktop in the `rr.connect` line
 
 ## Networking Setup
 
+![networking setup](./assets/network-bicyclist.png)
+
 I've installed Tailscale on my iPhone and my Jetson Orin Nano. 
 
 Once I've done that, I can set up my Jetson Orin Nano to run a webserver accessible from my phone. My Jetson Orin Nano just needs to tether the hotspot from my iPhone while on bicycle rides.
@@ -100,6 +102,8 @@ $ sudo nmcli d wifi connect AS:0D:20:20:92 password theactualpassword
 From there, each time you bring up the Jetson, it will autoconnect to the Wifi hotspot.
 
 ## Running the Server on Startup
+
+![JTOP](./assets/jtop.png)
 
 If you want to have the webserver start when your Jetson is turned on, I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
 
@@ -137,8 +141,6 @@ $ sudo pip3 install -U jetson-stats
 ```
 
 Reboot the Jetson, and run it with a `jtop` to monitor usage.
-
-![JTOP](./assets/jtop.png)
 
 ## Realsense Installation on Jetson Orin Nano
 
