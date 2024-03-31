@@ -204,10 +204,3 @@ With this, we can then add a parameter to mount these devices in the container:
 $ docker run --device /dev/bus/usb --device /dev/video0 --device /dev/video1 --device /dev/video2 --device /dev/video3 --device /dev/video4 --device /dev/video5 --device /dev/video6 --device /dev/video7 <containername> /bin/bash
 ```
 
-And then run the `nanoowl` process:
-
-```
-$ cd /opt/nanoowl/examples/tree_demo
-$ python3 tree_demo.py --host 0.0.0.0 --camera 4 /opt/nanoowl/data/owl_image_encoder_patch32.engine
-```
-
