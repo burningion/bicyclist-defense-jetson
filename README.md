@@ -6,7 +6,7 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 This project attempts to build a bicyclist warning system for erratic drivers. It aims to use computer vision along with radar to track cars which may present a threat to the bicyclist, and warn them before a collision occurs.
 
-It currently runs Owl-ViT to track cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. There are two buttons in the app, one to record mmWave sensor data along with raw images for training a model to track cars, and another to record videos of your trips, to build a dataset for distillation, and / or to keep track of dangerous drivers.
+It currently runs Owl-ViT to track cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. There are two buttons in the app, one to record mmWave sensor data and images for training a model, and another to record videos of your trips, to build help build a dataset for distillation, keep track of dangerous drivers, or just record your rides. 
 
 ## Hardware Setup
 
