@@ -114,7 +114,7 @@ The big point is the IP address of my laptop or desktop in the `rr.connect` line
 
 I've installed Tailscale on my iPhone and my Jetson Orin Nano. 
 
-Once I've done that, I can set up my Jetson Orin Nano to run a webserver for configuration on my phone. My Jetson Orin Nano just needs to tether from my iPhone.
+Once I've done that, I can set up my Jetson Orin Nano to run a webserver accessible from my phone. My Jetson Orin Nano just needs to tether the hotspot from my iPhone while on bicycle rides.
 
 For some reason, I wasn't able to discover the Wifi hotspot from my iPhone until _after_ my laptop connected to it. 
 
@@ -159,7 +159,7 @@ I use the [imufusion library](https://github.com/xioTechnologies/Fusion) to do s
 
 I've also added a [GPS device](https://www.sparkfun.com/products/17285) to (eventually) do correction via heading, which imufusion supports.
 
-## AWR1443 mmWave 
+## AWR1443 mmWave Radar Data Collection
 
 You _must_ use Jetpack 6. Otherwise, there's a bug in the UART controller for the Jetson Orin Nano. 
 
@@ -167,7 +167,7 @@ Once you've done that, install the requirements for the [pymmwave](https://githu
 
 From there, you can edit the `source/mss/14_mmw-xWR14xx.cfg` file to just run the resources you need, and extract running features from the `source/app/` directory.
 
-## Discovering Video Devices for Inference, Running in Containers
+## Discovering Video Devices for Inference, in Containers
 
 Because computer vision research tends to move quickly, it can be tricky to install the correct dependencies to run multiple projects in the same repository. 
 
@@ -212,8 +212,4 @@ And then run the `nanoowl` process:
 $ cd /opt/nanoowl/examples/tree_demo
 $ python3 tree_demo.py --host 0.0.0.0 --camera 4 /opt/nanoowl/data/owl_image_encoder_patch32.engine
 ```
-
-Now, the unfortunate thing here is that we need an efficient way to coordinate communication across these sensors and containers.
-
-Robotics platforms like ROS use a message system, using Pub/Sub to submit messages across the system to services that consume them.
 
