@@ -6,9 +6,11 @@ Defending Bicyclists from Erratic Drivers with Computer Vision and mmWave Radar
 
 This project attempts to build a bicyclist warning system for erratic drivers. It aims to use computer vision along with radar to track cars which may present a threat to the bicyclist, and warn them before a potential collision occurs.
 
-It currently runs Owl-ViT via [NanoOWL](https://github.com/NVIDIA-AI-IOT/nanoowl) to track and highlight cars, trucks and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. 
+It currently runs Owl-ViT via [NanoOWL](https://github.com/NVIDIA-AI-IOT/nanoowl) to track and highlight cars, trucks, and pedestrians in real time from an attached camera, viewable on a person's iPhone mounted on their bicycle. 
 
 There are two buttons in the app, one to record mmWave sensor data and images for training a model, and another to record videos of your trips. This is useful to build help build a dataset for distillation (improving the framerate of the inference model), keep recordings of dangerous drivers, or just record and visualize your rides. 
+
+I've added a radar sensor to allow for sensor fusion, aiming to have more robust results than computer vision alone, with better tracking of vehicles and their speed / trajectory.
 
 ## Hardware Setup
 
@@ -165,11 +167,13 @@ I've also added a [GPS device](https://www.sparkfun.com/products/17285) to (even
 
 ## AWR1443 mmWave Radar Data Collection
 
-You _must_ use Jetpack 6. Otherwise, there's a bug in the UART controller for the Jetson Orin Nano. 
+You _must_ use Jetpack 6. Otherwise, there's a bug in the UART controller for the Jetson Orin Nano on Jetpack 5 that prevents the AWR1443 from running. 
 
 Once you've done that, install the requirements for the [pymmwave](https://github.com/m6c7l/pymmw) project.
 
 From there, you can edit the `source/mss/14_mmw-xWR14xx.cfg` file to just run the resources you need, and extract running features from the `source/app/` directory.
+
+I plan on using the point cloud to do DBSCAN as outlined in the paper [here](https://ieeexplore.ieee.org/document/9916096).
 
 ## Discovering Video Devices for Inference, in Containers
 
