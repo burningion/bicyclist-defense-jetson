@@ -5,5 +5,5 @@ RUN apt-get install -y libpthread-stubs0-dev ros-humble-perception-pcl ros-humbl
 RUN git clone https://github.com/kimsooyoung/mmwave_ti_ros.git /mmwave_ti_ros
 RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && colcon build --symlink-install --packages-select serial && source install/local_setup.bash
 RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && colcon build --symlink-install --packages-select ti_mmwave_ros2_interfaces && source install/local_setup.bash
-RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && && source install/local_setup.bash colcon build --symlink-install --packages-select ti_mmwave_ros2_pkg && source install/local_setup.bash
+RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && source install/local_setup.bash && colcon build --symlink-install --packages-select ti_mmwave_ros2_pkg && source install/local_setup.bash
 RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && colcon build --symlink-install --packages-select ti_mmwave_ros2_examples && source install/local_setup.bash
