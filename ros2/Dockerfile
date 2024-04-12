@@ -7,3 +7,4 @@ RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && colcon build --sym
 RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && colcon build --symlink-install --packages-select ti_mmwave_ros2_interfaces && source install/local_setup.bash
 RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && source install/local_setup.bash && colcon build --symlink-install --packages-select ti_mmwave_ros2_pkg && source install/local_setup.bash
 RUN cd /mmwave_ti_ros && source /opt/ros/humble/setup.bash && colcon build --symlink-install --packages-select ti_mmwave_ros2_examples && source install/local_setup.bash
+RUN sh -c 'echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc' && sh -c 'echo "source /mmwave_ti_ros/install/local_setup.bash" >> /root/.bashrc'
