@@ -103,11 +103,34 @@ $ sudo nmcli d wifi connect AS:0D:20:20:92 password theactualpassword
 
 From there, each time you bring up the Jetson, it will autoconnect to the Wifi hotspot.
 
+## Running the Server via Container
+
+I've included a `Dockerfile` to run the container on your Jetson Orin Nano.
+
+To run it, you should be able to do a:
+
+```bash
+$ ./launch_bicycle.sh
+```
+
+From the repository's directory. This will build the container image, and then drop you into a shell inside of the container.
+
+From there, you can cd `/bicyclist/bicycle-app`, and then run a `npm i`, followed by `npm run dev` to enable live reloading for development.
+
+Once you're ready to deploy (and get better framerates), you can do a:
+
+```bash
+$ npm run build
+$ npm run start
+```
+
+This will run a more optimized version of the application, allowing for the maximum fps on the system.
+
 ## Running the Server on Startup
 
 ![JTOP](./assets/jtop.png)
 
-If you want to have the webserver start when your Jetson is turned on, I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
+If you want to have the webserver start when your Jetson is turned on automatically, I've included an example service for systemd, `bicyclist-protection.service`. Copy this to `/etc/systemd/system/`.
 
 You'll need to replace my username with your username, and the location of this repository's installation there too.
 
