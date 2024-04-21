@@ -22,7 +22,7 @@ import numpy as np
 logger = logging.getLogger("uvicorn")
 logger.setLevel(logging.INFO)
 
-with trt.Logger() as logger, trt.Runtime(logger) as runtime:
+with trt.Logger() as loggerT, trt.Runtime(loggerT) as runtime:
     # optimized from: https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/trafficcamnet
     with open("/data/resnet18_trafficcamera_pruned.engine", 'rb') as f:
         engine_bytes = f.read()
