@@ -11,8 +11,8 @@ Originally from NVIDIA [here](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/t
 
 ## Resnet18 Image Encoder
 
-From the NVIDIA NanoSAM repository.
+From the NVIDIA [NanoSAM repository](https://github.com/NVIDIA-AI-IOT/nanosam).
 
 ## Mobile SAM Mask Decoder
 
-Also from the NVIDIA NanoSAM repository.
+Also from the NVIDIA [NanoSAM repository](https://github.com/NVIDIA-AI-IOT/nanosam).
