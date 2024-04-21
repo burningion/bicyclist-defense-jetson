@@ -102,8 +102,9 @@ async def detection_loop(app: FastAPI):
         
         image_pil = cv2_to_pil(image)
         ready = preprocess_image(image_pil)
+        print(f"pre processed image shape: {ready.shape}")
         image_embeddings = image_encoder_trt(ready)
-        print(image_embeddings.shape)
+        print(f"image embeddings: {image_embeddings}")
         # image_copy = image.copy()
         if manager.is_recording: # Add a red bar to indicate recording
             bar_height = 50  # Adjust the thickness of the bar
