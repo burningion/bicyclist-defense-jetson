@@ -48,7 +48,7 @@ def preprocess_image(image, size: int = 512):
     image_np_resized = np.asarray(image_pil_resized)
     image_torch_resized = torch.from_numpy(image_np_resized).permute(2, 0, 1)
     image_torch_resized_normalized = (image_torch_resized.float() - image_mean) / image_std
-    image_tensor = torch.zeros((1, 3, size, size))
+    image_tensor = torch.zeros((1, 3, 544, 960))
     image_tensor[0, :, :544, :960] = image_torch_resized_normalized
 
     return image_tensor.cuda()
