@@ -13,3 +13,5 @@ RUN wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-arm64.tar.xz && ta
 RUN sh -c 'echo "export NODEJS_HOME=/usr/local/lib/node" >> /root/.bashrc' && sh -c 'echo "export PATH=/usr/local/lib/node/bin:$PATH" >> /root/.bashrc'
 COPY bicycle-app/requirements.txt /requirements.txt 
 RUN pip install -r /requirements.txt
+RUN git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference /jetson-interface && cd jetson-inference && mkdir build
+RUN cd /jetson-interface/build && cmake ../ && make -j$(nproc) && make install && ldconfig
