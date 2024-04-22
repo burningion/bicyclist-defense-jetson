@@ -12,5 +12,5 @@ RUN sh -c 'echo "export NODEJS_HOME=/usr/local/lib/node" >> /root/.bashrc' && sh
 COPY bicycle-app/requirements.txt /requirements.txt 
 RUN pip install -r /requirements.txt
 RUN git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference /jetson-inference && cd /jetson-inference && mkdir build
-COPY CMakelists.txt /jetson-inference/CMakeLists.txt
+COPY CMakeLists.txt /jetson-inference/CMakeLists.txt
 RUN cd /jetson-inference/build && cmake ../ && make -j$(nproc) && make install && ldconfig
