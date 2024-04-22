@@ -14,4 +14,4 @@ RUN sh -c 'echo "export NODEJS_HOME=/usr/local/lib/node" >> /root/.bashrc' && sh
 COPY bicycle-app/requirements.txt /requirements.txt 
 RUN pip install -r /requirements.txt
 RUN git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference /jetson-inference && cd /jetson-inference && mkdir build
-RUN cd /jetson-inference/build && cmake -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link,/usr/lib/aarch64-linux-gnu/nvidia/" ../ && make LDFLAGS="-Wl,-rpath-link,/usr/lib/aarch64-linux-gnu/nvidia/" -j$(nproc) && make install 
+RUN cd /jetson-inference/build && cmake -DCMAKE_INSTALL_RPATH="/usr/lib/aarch64-linux-gnu/nvidia/" -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE ../ && make -j$(nproc) && make install 
